@@ -25,6 +25,6 @@ module besshub::bess_token {
 
 		coin::freeze_metadata(metadata);
 
-		// treasury_cap será transferido ao RewardSystem
+		besshub::reward_system::init(treasury_cap, ctx);
 	}
 }
