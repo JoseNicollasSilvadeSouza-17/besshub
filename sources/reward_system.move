@@ -11,6 +11,8 @@ module besshub::reward_system {
 		treasury_cap: TreasuryCap<BESS>
 	}
 
+	const E_INVALID_AMOUNT: u64 = 0;
+
 	// Inicializa o sistema e recebe o TreasuryCap
 	public fun init(
 		treasury_cap: TreasuryCap<BESS>,
@@ -31,6 +33,8 @@ module besshub::reward_system {
 		recipient: address,
 		ctx: &mut TxContext
 	) {
+		assert!(amount > 0, E_INVALID_AMOUNT);
+
 		let coin: Coin<BESS> = coin::mint(
 			&mut system.treasury_cap, 
 			amount, 
