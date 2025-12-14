@@ -3,6 +3,7 @@ module besshub::reward_system {
 	use sui::object::UID;
 	use sui::tx_context::TxContext;
 	use sui::transfer;
+	use sui::table::{Self, Table};
 
 	use besshub::bess_token::BESS;
 	use besshub::contributor_nft::mint;
@@ -12,9 +13,12 @@ module besshub::reward_system {
 		id: UID,
 		treasury_cap: TreasuryCap<BESS>,
 		total_distributed: u64,
+		contributors: Table<address, bool>
 	}
 
+	// Códigos de erro
 	const E_INVALID_AMOUNT: u64 = 0;
+	const E_ALREADY_HAS_NFT: u64 = 1;
 
 	// Inicializa o sistema e recebe o TreasuryCap
 	public fun init(
@@ -24,7 +28,8 @@ module besshub::reward_system {
 		let system = RewardSystem {
 			id: object::new(ctx),
 			treasury_cap,
-			total_distributed: 0
+			total_distributed: 0,
+			contributors: table::new(ctx)
 		};
 
 		transfer::share_object(system);
@@ -38,6 +43,10 @@ module besshub::reward_system {
 		ctx: &mut TxContext
 	) {
 		assert!(amount > 0, E_INVALID_AMOUNT);
+		assert!(
+			!table::contains(&system.contributors, recipient),
+			E_ALREADY_HAS_NFT	
+		);
 
 		let coin: Coin<BESS> = coin::mint(
 			&mut system.treasury_cap,
@@ -51,6 +60,9 @@ module besshub::reward_system {
 			amount,
 			ctx
 		);
+
+		// Registra o usuário como contribuinte
+    table::add(&mut system.contributors, recipient, true);
 
 		coin::transfer(nft, recipient);
 		transfer::transfer(nft, recipient);
