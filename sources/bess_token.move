@@ -14,6 +14,13 @@ module besshub::bess_token {
 
 	// Inicialização única do token
 	fun init(witness: BESS, ctx: &mut TxContext) {
-
+		let (treasury_cap, metadata) = coin::create_currency<BESS>(
+			witness,
+			9,										// decimals
+			b"BESSHub Token",			// nome
+			b"BESS",							// símbolo
+			b"Token de recompensa do protocolo BESSHub",
+			ctx
+		);
 	}
 }
