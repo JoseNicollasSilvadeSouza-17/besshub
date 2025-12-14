@@ -3,13 +3,15 @@ module besshub::reward_system {
 	use sui::object::UID;
 	use sui::tx_context::TxContext;
 	use sui::transfer;
+
 	use besshub::bess_token::BESS;
+	use besshub::contributor_nft::mint;
 
 	// Sistema de Recompensas
 	struct RewardSystem has key {
 		id: UID,
 		treasury_cap: TreasuryCap<BESS>,
-		total_distributed: u64
+		total_distributed: u64,
 	}
 
 	const E_INVALID_AMOUNT: u64 = 0;
@@ -44,6 +46,13 @@ module besshub::reward_system {
 
 		system.total_distributed = system.total_distributed + amount;
 
-		transfer::public_transfer(coin, recipient);
+		let nft = contributor_nft::mint(
+			recipient,
+			amount,
+			ctx
+		);
+
+		coin::transfer(nft, recipient);
+		transfer::transfer(nft, recipient);
 	}
 }

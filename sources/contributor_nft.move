@@ -9,7 +9,7 @@ module besshub::contributor_nft {
     contributor_score: u64
   }
 
-  public(friend) fun mint(
+  public(package) fun mint(
     contributor: address,
     score: u64,
     ctx: &mut TxContext
