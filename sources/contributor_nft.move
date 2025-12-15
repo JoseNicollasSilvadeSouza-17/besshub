@@ -54,7 +54,7 @@ module besshub::contributor_nft {
 		display::freeze(display);
 	}
 
-	fun new(ctx: &mut TxContext): ContributorNFT {
+	public fun mint(ctx: &mut TxContext): ContributorNFT {
 		ContributorNFT {
 			id: object::new(ctx),
 			tier: TIER_BRONZE,
