@@ -1,8 +1,8 @@
 module besshub::contributor_nft {
-  use sui::object::UID;
+  use sui::object::{Self, UID};
   use sui::tx_context::TxContext;
-  use sui::display::{Self, add};
-	use sui::string::String;
+  use sui::display;
+	use sui::string::{String, utf8};
 	use sui::option::{Self, Option};
 
   struct ContributorNFT has key, store {
@@ -35,7 +35,7 @@ module besshub::contributor_nft {
 
 		display::add(
 			&mut display,
-			b"image_url",
+			b"image",
 			b"{image}"
 		);
 
@@ -77,15 +77,15 @@ module besshub::contributor_nft {
 
 	public fun default_image_for_tier(tier: u8): String {
 		if (tier == TIER_PLATINUM) {
-			string::utf8(b"https://walrus.site/besshub/bess-platinum.png");
+			utf8(b"https://walrus.site/besshub/bess-platinum.png")
 		} else if (tier == TIER_OURO) {
-			string::utf8(b"https://walrus.site/besshub/bess-ouro.png");
+			utf8(b"https://walrus.site/besshub/bess-ouro.png")
 		} else if (tier == TIER_PRATA) {
-			string::utf8(b"https://walrus.site/besshub/bess-prata.png");
+			utf8(b"https://walrus.site/besshub/bess-prata.png")
 		} else {
-			string::utf8(b"https://walrus.site/besshub/bess-bronze.png");
+			utf8(b"https://walrus.site/besshub/bess-bronze.png")
 		}
-	} 
+	}
 
 	fun set_custom_image(
     nft: &mut ContributorNFT,
@@ -96,9 +96,10 @@ module besshub::contributor_nft {
 
 	public fun resolve_image(nft: &ContributorNFT): String {
 		if (option::is_some(&nft.custom_image_url)) {
-			*option::borrow(&nft.custom_image_url);
+			let image = option::borrow(&nft.custom_image_url);
+			*image
 		} else {
-			default_image_for_tier(nft.tier);
+			default_image_for_tier(nft.tier)
 		}
 	}
 }
