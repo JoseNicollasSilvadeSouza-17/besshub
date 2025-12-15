@@ -77,13 +77,13 @@ module besshub::contributor_nft {
 
 	public fun default_image_for_tier(tier: u8): String {
 		if (tier == TIER_PLATINUM) {
-			utf8(b"https://walrus.site/besshub/bess-platinum.png")
+			utf8(b"https://ipfs.tusky.io/ipfs/425fadaa-000b-4fe7-a200-6989f5430d77?width=350/bess-platinum.png")
 		} else if (tier == TIER_OURO) {
-			utf8(b"https://walrus.site/besshub/bess-ouro.png")
+			utf8(b"https://ipfs.tusky.io/ipfs/425fadaa-000b-4fe7-a200-6989f5430d77?width=350/bess-ouro.png")
 		} else if (tier == TIER_PRATA) {
-			utf8(b"https://walrus.site/besshub/bess-prata.png")
+			utf8(b"https://ipfs.tusky.io/ipfs/425fadaa-000b-4fe7-a200-6989f5430d77?width=350/bess-prata.png")
 		} else {
-			utf8(b"https://walrus.site/besshub/bess-bronze.png")
+			utf8(b"https://ipfs.tusky.io/ipfs/425fadaa-000b-4fe7-a200-6989f5430d77?width=350/bess-bronze.png")
 		}
 	}
 
