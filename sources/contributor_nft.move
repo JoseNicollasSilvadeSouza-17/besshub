@@ -97,7 +97,7 @@ module besshub::contributor_nft {
 	public fun resolve_image(nft: &ContributorNFT): String {
 		if (option::is_some(&nft.custom_image_url)) {
 			let image = option::borrow(&nft.custom_image_url);
-			*image
+			string::clone(image)
 		} else {
 			default_image_for_tier(nft.tier)
 		}
