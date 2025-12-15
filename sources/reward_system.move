@@ -6,7 +6,7 @@ module besshub::reward_system {
 	use sui::table::{Self, Table};
 
 	use besshub::bess_token::BESS;
-	use besshub::contributor_nft::mint;
+	use besshub::contributor_nft::{Self, ContributorNFT};
 
 	// Sistema de Recompensas
 	struct RewardSystem has key {
