@@ -87,6 +87,13 @@ module besshub::contributor_nft {
 		}
 	} 
 
+	fun set_custom_image(
+    nft: &mut ContributorNFT,
+    url: String
+  ) {
+    nft.custom_image_url = option::some<String>(url);
+  }
+
 	public fun resolve_image(nft: &ContributorNFT): String {
 		if (option::is_some(&nft.custom_image_url)) {
 			*option::borrow(&nft.custom_image_url);
@@ -94,24 +101,4 @@ module besshub::contributor_nft {
 			default_image_for_tier(nft.tier);
 		}
 	}
-
-	fun set_custom_image(
-    nft: &mut ContributorNFT,
-    url: vector<u8>
-  ) {
-    let s = utf8::string(url);
-    nft.custom_image_url = option::some<String>(s);
-  }
-
-  public(package) fun mint(
-    contributor: address,
-    score: u64,
-    ctx: &mut TxContext
-  ): ContributorNFT {
-    ContributorNFT {
-      id: object::new(ctx),
-      contributor,
-      contributor_score: score
-    }
-  }
 }
