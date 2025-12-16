@@ -20,4 +20,4 @@ The protocol is divided into **4 core modules**, each with a clear responsibilit
 
 ## License
 
-[Licença MIT](LICENSE)
+[License MIT](LICENSE)
